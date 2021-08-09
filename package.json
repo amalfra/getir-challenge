@@ -1,0 +1,33 @@
+{
+  "name": "getir-challenge",
+  "version": "1.0.0",
+  "description": "A RESTful API with a single endpoint that fetches the data in the provided MongoDB collection and return the results in the requested format",
+  "main": "app.js",
+  "private": true,
+  "engines": {
+    "npm": ">=7.19.1",
+    "node": ">=14.17.4"
+  },
+  "scripts": {
+    "pretest": "eslint --ignore-path .gitignore .",
+    "test": "echo NOTEST"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amalfra/getir-challenge.git"
+  },
+  "author": "Amal Francis <amalfra@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amalfra/getir-challenge/issues"
+  },
+  "homepage": "https://github.com/amalfra/getir-challenge",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-strongloop": "^2.1.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.5"
+  }
+}
