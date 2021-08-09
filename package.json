@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "A RESTful API with a single endpoint that fetches the data in the provided MongoDB collection and return the results in the requested format",
   "main": "app.js",
+  "type": "module",
   "private": true,
   "engines": {
     "npm": ">=7.19.1",
     "node": ">=14.17.4"
   },
   "scripts": {
+    "start": "node app.js",
     "lint": "eslint --ext .js,.ts .",
     "pretest": "npm run lint",
     "test": "echo NOTEST",
@@ -39,6 +41,7 @@
     "prettier": "^2.3.2"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "mongoose": "^5.13.5"

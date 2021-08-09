@@ -1,5 +1,9 @@
 {
   "plugins": ["simple-import-sort"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "env": {
     "node": true,
     "es6": true
