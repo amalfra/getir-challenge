@@ -1,29 +1,57 @@
 import cors from 'cors'
 import express from 'express'
+import mongoose from 'mongoose'
 
-import config from './core/config.js'
-import routerV1 from './router.v1.js'
+import loadconfig from './config.js'
+import createRouter from './routes/router.js'
 
-const app = express()
+const handleBodyParseError = (err, _, res, next) => {
+  if (err) {
+    return res.status(400).send({
+      code: res.status,
+      msg: err.message,
+    })
+  }
+  next()
+}
 
-// parse body params and attach them to req.body
-app.use(express.json())
-app.use(
-  express.urlencoded({
-    extended: true,
+;(async() => {
+  let config
+  try {
+    config = loadconfig()
+  } catch (e) {
+    console.error(`Config error: ${e.message}`)
+    return process.exit(1)
+  }
+
+  try {
+    await mongoose.connect(config.mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+  } catch (e) {
+    console.error(`Database connection error: ${e.message}`)
+    return process.exit(1)
+  }
+
+  const app = express()
+
+  // parse body params and attach them to req.body
+  app.use(express.json())
+  // JSON response for body parsing errors
+  app.use(handleBodyParseError)
+  app.use(
+    express.urlencoded({
+      extended: true,
+    }),
+  )
+  app.use(cors())
+
+  createRouter(app)
+
+  app.listen(config.port, config.host, () => {
+    console.info(
+      `Server listening on ${config.protocol}${config.host}:${config.port}`,
+    )
   })
-)
-app.use(cors())
-
-app.use('/v1', routerV1)
-
-// catch 404
-app.use((_, res) => {
-  res.status(404).json({
-    message: 'Route not found',
-  })
-})
-
-app.listen(config.port, () => {
-  console.info(`Server listening on ${config.host}:${config.port}`)
-})
+})()

@@ -1,7 +1,7 @@
 {
   "plugins": ["simple-import-sort"],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "env": {
