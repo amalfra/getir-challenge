@@ -9,8 +9,16 @@
     "node": ">=14.17.4"
   },
   "scripts": {
-    "pretest": "eslint --ignore-path .gitignore .",
-    "test": "echo NOTEST"
+    "lint": "eslint --ext .js,.ts .",
+    "pretest": "npm run lint",
+    "test": "echo NOTEST",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "npm run lint -- --fix"
+    ]
   },
   "repository": {
     "type": "git",
@@ -24,10 +32,15 @@
   "homepage": "https://github.com/amalfra/getir-challenge",
   "devDependencies": {
     "eslint": "^7.32.0",
-    "eslint-config-strongloop": "^2.1.0"
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "joi": "^17.4.2",
     "mongoose": "^5.13.5"
   }
 }

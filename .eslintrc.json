@@ -1,9 +1,13 @@
 {
-  "parserOptions": {
-    "ecmaVersion": 6
+  "plugins": ["simple-import-sort"],
+  "env": {
+    "node": true,
+    "es6": true
   },
   "extends": "strongloop",
   "rules": {
-    "max-len": [2, 120]
+    "max-len": [2, 120],
+    "simple-import-sort/imports": "error",
+    "semi": 0
   }
 }
