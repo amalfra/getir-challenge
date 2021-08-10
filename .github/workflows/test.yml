@@ -10,4 +10,8 @@ jobs:
         with:
           node-version: 14.17
       - run: npm ci
-      - run: npm test
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run test:integration
+        env:
+          MONGO_URL: ${{ secrets.TEST_MONGO_URL }}

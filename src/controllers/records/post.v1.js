@@ -23,7 +23,7 @@ const fetchRecords = ({ startDate, endDate, minCount, maxCount }) =>
     },
     {
       $match: {
-        $adnd: [
+        $and: [
           {
             createdAt: {
               $gte: new Date(startDate),

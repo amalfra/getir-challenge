@@ -4,11 +4,11 @@ import mockedEnv from 'mocked-env'
 import loadconfig from './config.js'
 
 const defaultValues = {
-  env: 'development',
+  env: 'test',
   protocol: 'http://',
   host: '0.0.0.0',
   port: 8080,
-  mongooseDebug: true,
+  mongooseDebug: false,
 }
 
 describe('lib/config.js', function() {
@@ -56,7 +56,10 @@ describe('lib/config.js', function() {
     restore = mockedEnv({
       MONGO_URL,
     })
-    expect(loadconfig()).to.have.property('mongooseDebug', true)
+    expect(loadconfig()).to.have.property(
+      'mongooseDebug',
+      defaultValues.mongooseDebug,
+    )
 
     restore()
     let NODE_ENV = 'test'

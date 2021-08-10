@@ -15,13 +15,19 @@ const handleBodyParseError = (err, _, res, next) => {
   next()
 }
 
-;(async() => {
+// promisify listen to work with async/await
+const listen = (app, port, host) =>
+  new Promise((resolve, reject) => {
+    const listener = app.listen(port, host)
+    listener.once('listening', () => resolve(listener)).once('error', reject)
+  })
+
+const createApp = async() => {
   let config
   try {
     config = loadconfig()
   } catch (e) {
-    console.error(`Config error: ${e.message}`)
-    return process.exit(1)
+    return console.error('Config error:', e.message)
   }
 
   try {
@@ -30,8 +36,7 @@ const handleBodyParseError = (err, _, res, next) => {
       useUnifiedTopology: true,
     })
   } catch (e) {
-    console.error(`Database connection error: ${e.message}`)
-    return process.exit(1)
+    return console.error('Database connection error:', e.message)
   }
   mongoose.set('debug', config.mongooseDebug)
 
@@ -50,9 +55,25 @@ const handleBodyParseError = (err, _, res, next) => {
 
   createRouter(app)
 
-  app.listen(config.port, config.host, () => {
+  let server
+  try {
+    server = await listen(app, config.port, config.host)
     console.info(
-      `Server listening on ${config.protocol}${config.host}:${config.port}`,
+      'Server listening on',
+      `${config.protocol}${config.host}:${config.port}`,
     )
-  })
-})()
+  } catch (e) {
+    return console.error('Error starting the server', e.message)
+  }
+
+  return { app, server }
+}
+
+// don't start app automatically in test mode
+if (process.env.NODE_ENV !== 'test') {
+  ;(async() => {
+    await createApp()
+  })()
+}
+
+export default createApp
