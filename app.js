@@ -2,8 +2,8 @@ import cors from 'cors'
 import express from 'express'
 import mongoose from 'mongoose'
 
-import loadconfig from './config.js'
-import createRouter from './routes/router.js'
+import loadconfig from './lib/config.js'
+import createRouter from './routes/index.js'
 
 const handleBodyParseError = (err, _, res, next) => {
   if (err) {
@@ -33,6 +33,7 @@ const handleBodyParseError = (err, _, res, next) => {
     console.error(`Database connection error: ${e.message}`)
     return process.exit(1)
   }
+  mongoose.set('debug', config.mongooseDebug)
 
   const app = express()
 
