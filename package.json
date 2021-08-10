@@ -2,7 +2,7 @@
   "name": "getir-challenge",
   "version": "1.0.0",
   "description": "A RESTful API with a single endpoint that fetches the data in the provided MongoDB collection and return the results in the requested format",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
   "private": true,
   "engines": {
@@ -10,7 +10,7 @@
     "node": "~14.17.4"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "lint": "eslint --ext .js,.ts .",
     "pretest": "npm run lint",
     "test": "mocha ./**/*.test.js --ignore './node_modules/**/*'",

@@ -6,7 +6,7 @@ import loadconfig from './config.js'
 const defaultValues = {
   env: 'development',
   protocol: 'http://',
-  host: 'localhost',
+  host: '0.0.0.0',
   port: 8080,
   mongooseDebug: true,
 }
@@ -78,7 +78,7 @@ describe('lib/config.js', function() {
   it('should return correctly when some envs set', function() {
     const MONGO_URL = 'mongodb://localhost:27017/myapp'
     const PROTOCOL = 'https://'
-    const HOST = 'localhost'
+    const HOST = '0.0.0.0'
     restore = mockedEnv({
       MONGO_URL,
       PROTOCOL,

@@ -6,7 +6,7 @@ const envSchema = Joi.object({
     .allow('development', 'production', 'test')
     .default('development'),
   PROTOCOL: Joi.string().default('http://'),
-  HOST: Joi.string().default('localhost'),
+  HOST: Joi.string().default('0.0.0.0'),
   PORT: Joi.number().default(8080),
   MONGOOSE_DEBUG: Joi.boolean().when('NODE_ENV', {
     is: Joi.string().equal('development'),
