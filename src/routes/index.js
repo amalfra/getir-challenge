@@ -6,7 +6,8 @@ export default (app) => {
   // catch 404
   app.use((_, res) => {
     return res.status(404).json({
-      message: 'Route not found',
+      code: 404,
+      msg: 'Route not found',
     })
   })
 }

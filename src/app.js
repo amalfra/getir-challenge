@@ -8,7 +8,7 @@ import createRouter from './routes/index.js'
 const handleBodyParseError = (err, _, res, next) => {
   if (err) {
     return res.status(400).send({
-      code: res.status,
+      code: 400,
       msg: err.message,
     })
   }

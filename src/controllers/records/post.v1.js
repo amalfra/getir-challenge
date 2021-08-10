@@ -23,7 +23,7 @@ const fetchRecords = ({ startDate, endDate, minCount, maxCount }) =>
     },
     {
       $match: {
-        $and: [
+        $adnd: [
           {
             createdAt: {
               $gte: new Date(startDate),
@@ -50,7 +50,15 @@ export default async(req, res) => {
     })
   }
 
-  const records = await fetchRecords(value)
+  let records = []
+  try {
+    records = await fetchRecords(value)
+  } catch (e) {
+    return res.status(500).json({
+      code: 500,
+      msg: e.message,
+    })
+  }
 
   return res.json({
     code: 0,
