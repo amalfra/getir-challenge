@@ -12,7 +12,7 @@ const defaultValues = {
 }
 
 describe('lib/config.js', function() {
-  // to restore old values
+  // to restore old env values
   let restore
 
   afterEach(function() {
