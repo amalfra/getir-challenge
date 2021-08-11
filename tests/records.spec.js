@@ -1,19 +1,31 @@
 import { expect } from 'chai'
+import mockedEnv from 'mocked-env'
 import mongoose from 'mongoose'
 import request from 'supertest'
 
 import createApp from '../src/app.js'
+import doSetup from './setup.js'
 
 describe('Records route', function() {
-  let app, server
+  let app, server, db
 
   before(async function() {
+    const { mongo } = await doSetup()
+    mockedEnv({
+      MONGO_URL: mongo.uri,
+    })
+    db = mongo.instance
     ;({ app, server } = await createApp())
   })
 
-  after(function() {
+  after(async function() {
     mongoose.connection.close()
-    server.close()
+    if (server) {
+      server.close()
+    }
+    if (db) {
+      await db.stop()
+    }
   })
 
   it('should have 422 for requests without any params', async function() {

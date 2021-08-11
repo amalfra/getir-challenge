@@ -4,9 +4,28 @@ import mongoose from 'mongoose'
 import request from 'supertest'
 
 import createApp from '../src/app.js'
+import doSetup from './setup.js'
 
 describe('App', function() {
-  let app, server
+  let app, server, db
+
+  before(async function() {
+    const { mongo } = await doSetup()
+    mockedEnv({
+      MONGO_URL: mongo.uri,
+    })
+    db = mongo.instance
+  })
+
+  after(async function() {
+    mongoose.connection.close()
+    if (server) {
+      server.close()
+    }
+    if (db) {
+      await db.stop()
+    }
+  })
 
   describe('Setup', function() {
     // to restore old env values
@@ -51,11 +70,6 @@ describe('App', function() {
   describe('Routing', function() {
     before(async function() {
       ;({ app, server } = await createApp())
-    })
-
-    after(function() {
-      mongoose.connection.close()
-      server.close()
     })
 
     it('should have 400 for requests with invalid Content-Type header', async function() {
