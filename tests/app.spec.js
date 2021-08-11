@@ -10,8 +10,8 @@ describe('App', function() {
 
   describe('Setup', function() {
     // to restore old env values
-    let restore;
-    let consoleErrorOutput = '';
+    let restore
+    let consoleErrorOutput = ''
     let originalConsoleError
 
     before(function() {
@@ -56,6 +56,28 @@ describe('App', function() {
     after(function() {
       mongoose.connection.close()
       server.close()
+    })
+
+    it('should have 400 for requests with invalid Content-Type header', async function() {
+      const payload = 'hello'
+      const res = await request(app)
+        .post('/test-route')
+        .set({ 'Content-Type': 'application/json; charset=utf' })
+        .send(payload)
+
+      expect(res.body.code).to.eq(400)
+      expect(res.statusCode).to.equal(400)
+    })
+
+    it('should have 400 for requests with invalid JSON', async function() {
+      const payload = '{"invalid"}'
+      const res = await request(app)
+        .post('/test-route')
+        .set({ 'Content-Type': 'application/json; charset=utf-8' })
+        .send(payload)
+
+      expect(res.body.code).to.eq(400)
+      expect(res.statusCode).to.equal(400)
     })
 
     it('should have 404 for not existing routes', async function() {
